@@ -1,0 +1,21 @@
+@model Complaint
+@{
+    ViewData["Title"] = "New complaint";
+}
+<div class="page-heading">
+    <a asp-action="Index" class="back-link">← All complaints</a>
+    <h1 class="h2 mt-3">Report a campus issue</h1>
+    <p class="text-secondary">Please provide enough detail for the campus team to investigate.</p>
+</div>
+<div class="form-card">
+    <form asp-action="Create" method="post">
+        <partial name="_ComplaintForm" model="Model" />
+        <div class="d-flex gap-2 mt-4">
+            <button type="submit" class="btn btn-primary">Submit complaint</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

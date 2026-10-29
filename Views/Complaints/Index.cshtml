@@ -1,0 +1,79 @@
+@model IEnumerable<Complaint>
+@{
+    ViewData["Title"] = "Complaints";
+    var statuses = ViewBag.Statuses as string[] ?? Array.Empty<string>();
+}
+<div class="hero-panel mb-4">
+    <div>
+        <p class="eyebrow mb-2">CAMPUS SUPPORT PORTAL</p>
+        <h1 class="display-6 fw-bold">College complaints, made easier.</h1>
+        <p class="mb-0 text-secondary">Report campus issues and keep track of their progress.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary btn-lg mt-3 mt-md-0">+ New complaint</a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-lg-3"><div class="stat-card"><span>Total complaints</span><strong>@Model.Count()</strong></div></div>
+    <div class="col-6 col-lg-3"><div class="stat-card"><span>Submitted</span><strong>@Model.Count(c => c.Status == "Submitted")</strong></div></div>
+    <div class="col-6 col-lg-3"><div class="stat-card"><span>In progress</span><strong>@Model.Count(c => c.Status == "In Progress")</strong></div></div>
+    <div class="col-6 col-lg-3"><div class="stat-card"><span>Resolved</span><strong>@Model.Count(c => c.Status == "Resolved")</strong></div></div>
+</div>
+
+<form method="get" class="filter-panel row g-2 align-items-end mb-3">
+    <div class="col-md-6">
+        <label class="form-label" for="search">Search complaints</label>
+        <input id="search" name="search" value="@ViewBag.Search" class="form-control" placeholder="Name, title, category or email" />
+    </div>
+    <div class="col-md-3">
+        <label class="form-label" for="status">Status</label>
+        <select id="status" name="status" class="form-select">
+            <option value="">All statuses</option>
+            @foreach (var s in statuses)
+            {
+                <option value="@s" selected="@(ViewBag.SelectedStatus as string == s)">@s</option>
+            }
+        </select>
+    </div>
+    <div class="col-md-3 d-flex gap-2">
+        <button class="btn btn-dark flex-grow-1" type="submit">Filter</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Reset</a>
+    </div>
+</form>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <h5>No complaints found</h5>
+                <p class="text-secondary">Try another search or submit a new complaint.</p>
+                <a asp-action="Create" class="btn btn-primary">Submit a complaint</a>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead><tr><th>Complaint</th><th>Student</th><th>Category</th><th>Priority</th><th>Status</th><th>Date</th><th class="text-end">Actions</th></tr></thead>
+                    <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="fw-semibold">@item.Title</span><div class="small text-secondary">#CC-@item.Id.ToString("D4")</div></td>
+                            <td>@item.StudentName</td>
+                            <td>@item.Category</td>
+                            <td><span class="priority priority-@item.Priority.ToLowerInvariant()">@item.Priority</span></td>
+                            <td><span class="status status-@item.Status.ToLowerInvariant().Replace(" ", "-")">@item.Status</span></td>
+                            <td class="text-nowrap">@item.CreatedAt.ToString("dd MMM yyyy")</td>
+                            <td class="text-end text-nowrap">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-light">View</a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

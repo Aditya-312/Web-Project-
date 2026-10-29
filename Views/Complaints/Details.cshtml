@@ -1,0 +1,30 @@
+@model Complaint
+@{
+    ViewData["Title"] = "Complaint details";
+}
+<div class="page-heading">
+    <a asp-action="Index" class="back-link">← All complaints</a>
+    <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mt-3">
+        <div>
+            <p class="eyebrow">COMPLAINT #CC-@Model.Id.ToString("D4")</p>
+            <h1 class="h2">@Model.Title</h1>
+            <p class="text-secondary mb-0">Submitted on @Model.CreatedAt.ToString("dd MMMM yyyy, hh:mm tt")</p>
+        </div>
+        <span class="status status-@Model.Status.ToLowerInvariant().Replace(" ", "-")">@Model.Status</span>
+    </div>
+</div>
+<div class="details-card">
+    <div class="row g-4">
+        <div class="col-md-6"><div class="detail-label">Student</div><div class="detail-value">@Model.StudentName</div></div>
+        <div class="col-md-6"><div class="detail-label">Email</div><div class="detail-value">@Model.Email</div></div>
+        <div class="col-md-6"><div class="detail-label">Category</div><div class="detail-value">@Model.Category</div></div>
+        <div class="col-md-6"><div class="detail-label">Priority</div><div class="detail-value">@Model.Priority</div></div>
+        <div class="col-12"><div class="detail-label">Description</div><div class="detail-description">@Model.Description</div></div>
+    </div>
+    <hr class="my-4" />
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit complaint</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete</a>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to list</a>
+    </div>
+</div>

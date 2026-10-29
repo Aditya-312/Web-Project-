@@ -1,0 +1,45 @@
+@model Complaint
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<div class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="StudentName" class="form-label"></label>
+        <input asp-for="StudentName" class="form-control" placeholder="Enter your full name" />
+        <span asp-validation-for="StudentName" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" placeholder="student@example.com" />
+        <span asp-validation-for="Email" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Category" class="form-label"></label>
+        <select asp-for="Category" class="form-select">
+            <option value="">Select a category</option>
+            @foreach (string category in (string[])ViewBag.Categories)
+            {
+                <option value="@category">@category</option>
+            }
+        </select>
+        <span asp-validation-for="Category" class="text-danger small"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Priority" class="form-label"></label>
+        <select asp-for="Priority" class="form-select">
+            @foreach (string priority in (string[])ViewBag.Priorities)
+            {
+                <option value="@priority">@priority</option>
+            }
+        </select>
+        <span asp-validation-for="Priority" class="text-danger small"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Title" class="form-label"></label>
+        <input asp-for="Title" class="form-control" placeholder="e.g. Wi-Fi not working in Lab 2" />
+        <span asp-validation-for="Title" class="text-danger small"></span>
+    </div>
+    <div class="col-12">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control" rows="5" placeholder="Explain where the issue is and what happened"></textarea>
+        <span asp-validation-for="Description" class="text-danger small"></span>
+    </div>
+</div>
